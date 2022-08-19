@@ -1,0 +1,31 @@
+name: 'Create PDF for web page'
+description: 'A Github action that creates PDF for web page.'
+branding:
+  icon: file-text
+  color: red
+inputs:
+  address:
+    description: 'Webpage address to generate PDF from.'
+    required: true
+  output:
+    description: 'Output directory.'
+    required: true
+  file-name:
+    description: 'Output file name.'
+    required: true
+  append-metadata:
+    description: 'Append timestamp to file name.'
+    required: false
+outputs:
+  title:
+    description: 'The title of the action.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+  - '-a'
+  - ${{ inputs.address }}
+  - '-o'
+  - ${{ inputs.output }}
+  - '-f'
+  - ${{ inputs.file-name }}
