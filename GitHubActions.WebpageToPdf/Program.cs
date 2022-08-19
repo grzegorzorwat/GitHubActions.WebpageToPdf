@@ -44,7 +44,11 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
     await page.GoToAsync(inputs.WebpageAddress, WaitUntilNavigation.Networkidle0);
     await page.EmulateMediaTypeAsync(GetMediaType(inputs));
 
-    Directory.CreateDirectory(inputs.OutputDirectory);
+    if (!Directory.Exists(inputs.OutputDirectory))
+    {
+        logger.LogError("Output directory must exist.");
+        Environment.Exit(2);
+    }
 
     var fileName = $"{inputs.OutputFileName}{(inputs.AppendMetadata ? $"_{DateTime.Now:yyyyMMddHHmmss}" : "")}.pdf";
     var fullPath = Path.Combine(inputs.OutputDirectory, fileName);

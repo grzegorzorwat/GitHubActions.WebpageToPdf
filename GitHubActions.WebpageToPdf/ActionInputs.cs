@@ -11,7 +11,7 @@ public class ActionInputs
 
     [Option('o', "output",
         Required = true,
-        HelpText = "Output directory.")]
+        HelpText = "Output directory. Right now it has to exist.")]
     public string OutputDirectory { get; init; } = null!;
 
     [Option('f', "file-name",
