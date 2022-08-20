@@ -7,6 +7,7 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using static CommandLine.Parser;
 
+const string PdfExtension = ".pdf";
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((_, services) => { })
     .Build();
@@ -50,14 +51,29 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
         Environment.Exit(2);
     }
 
-    var fileName = $"{inputs.OutputFileName}{(inputs.AppendMetadata ? $"_{DateTime.Now:yyyyMMddHHmmss}" : "")}.pdf";
-    var fullPath = Path.Combine(inputs.OutputDirectory, fileName);
+    string fileName = GetFileName(inputs);
+    string fullPath = Path.Combine(inputs.OutputDirectory, fileName);
 
     await page.PdfAsync(fullPath);
     string title = $"Created pdf for webpage {inputs.WebpageAddress}.";
     Console.WriteLine($"::set-output name=title::{title}");
 
     Environment.Exit(0);
+}
+
+static string GetFileName(ActionInputs inputs)
+{
+    string fileName = inputs.OutputFileName.EndsWith(PdfExtension)
+        ? inputs.OutputFileName.Remove(inputs.OutputFileName.Length - PdfExtension.Length, PdfExtension.Length)
+        : inputs.OutputFileName;
+
+    if (inputs.AppendMetadata == true)
+    {
+        fileName += $"_{DateTime.Now:yyyyMMddHHmmss}";
+    }
+
+    fileName += PdfExtension;
+    return fileName;
 }
 
 static MediaType GetMediaType(ActionInputs inputs) =>

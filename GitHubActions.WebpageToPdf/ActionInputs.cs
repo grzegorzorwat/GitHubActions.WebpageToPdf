@@ -22,7 +22,7 @@ public class ActionInputs
     [Option('m', "append-metadata",
         Required = false,
         HelpText = "Append timestamp to file name.")]
-    public bool AppendMetadata { get; init; }
+    public bool? AppendMetadata { get; init; } = false;
 
     [Option("media-type-screen",
         Required = false,
