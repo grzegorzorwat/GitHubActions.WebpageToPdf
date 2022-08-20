@@ -1,4 +1,5 @@
 ﻿using CommandLine;
+using PuppeteerSharp.Media;
 
 namespace GitHubActions.WebpageToPdf;
 
@@ -31,18 +32,12 @@ public class ActionInputs
 
     [Option('s', "script",
         Required = false,
-        HelpText = "Javascript script to be run on the web page before the pdf is created.")]
+        HelpText = "Path to javascript script to be run on the web page before the pdf is created.")]
     public string? ScriptPath { get; init; } = null;
 
-    [Option("media-type-screen",
+    [Option('t', "media-type",
         Required = false,
-        HelpText = "Emulate screen media type.",
-        SetName = "MediaTypeScreen")]
-    public bool EmulateScreenMediaType { get; init; }
-
-    [Option("media-type-print",
-        Required = false,
-        HelpText = "Emulate print media type.",
-        SetName = "MediaTypePrint")]
-    public bool EmulatePrintMediaType { get; init; }
+        HelpText = "Emulate media type. Possible types: None/Screen/Print.",
+        Default = MediaType.None)]
+    public MediaType EmulateMediaType { get; init; }
 }

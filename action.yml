@@ -23,6 +23,10 @@ inputs:
   script-path:
     description: 'Path to javascript script to be run on the web page before the pdf is created.'
     required: false
+  media-type:
+    description: 'Emulate media type. Possible types: None/Screen/Print.'
+    required: false
+    default: 'None'
 outputs:
   title:
     description: 'The title of the action.'
@@ -42,3 +46,5 @@ runs:
   - ${{ inputs.commit }}
   - '-s'
   - ${{ inputs.script-path }}
+  - '-t'
+  - ${{ inputs.media-type }}

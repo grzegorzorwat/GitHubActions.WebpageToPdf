@@ -43,7 +43,7 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
     });
     await using var page = await browser.NewPageAsync();
     await page.GoToAsync(inputs.WebpageAddress, WaitUntilNavigation.Networkidle0);
-    await page.EmulateMediaTypeAsync(GetMediaType(inputs));
+    await page.EmulateMediaTypeAsync(inputs.EmulateMediaType);
 
     if (!Directory.Exists(inputs.OutputDirectory))
     {
@@ -92,10 +92,3 @@ static string GetFileName(ActionInputs inputs)
     fileName += PdfExtension;
     return fileName;
 }
-
-static MediaType GetMediaType(ActionInputs inputs) =>
-    inputs.EmulateScreenMediaType
-        ? MediaType.Screen
-        : inputs.EmulatePrintMediaType
-            ? MediaType.Print
-            : MediaType.None;
