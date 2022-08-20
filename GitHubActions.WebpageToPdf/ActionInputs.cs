@@ -29,6 +29,11 @@ public class ActionInputs
         HelpText = "Commit hash.")]
     public string? Commit { get; init; } = null;
 
+    [Option('s', "script",
+        Required = false,
+        HelpText = "Javascript script to be run on the web page before the pdf is created.")]
+    public string? ScriptPath { get; init; } = null;
+
     [Option("media-type-screen",
         Required = false,
         HelpText = "Emulate screen media type.",

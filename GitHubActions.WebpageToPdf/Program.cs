@@ -54,6 +54,18 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
     string fileName = GetFileName(inputs);
     string fullPath = Path.Combine(inputs.OutputDirectory, fileName);
 
+    if (!string.IsNullOrEmpty(inputs.ScriptPath))
+    {
+        if (!File.Exists(inputs.ScriptPath))
+        {
+            logger.LogError("Script file must exist.");
+            Environment.Exit(2);
+        }
+
+        string script = File.ReadAllText(inputs.ScriptPath);
+        await page.EvaluateExpressionAsync(script);
+    }
+
     await page.PdfAsync(fullPath);
     string title = $"Created pdf for webpage {inputs.WebpageAddress}.";
     Console.WriteLine($"::set-output name=title::{title}");

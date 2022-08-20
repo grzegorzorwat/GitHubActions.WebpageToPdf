@@ -20,6 +20,9 @@ inputs:
   commit:
     description: 'Commit hash.'
     required: false
+  script-path:
+    description: 'Path to javascript script to be run on the web page before the pdf is created.'
+    required: false
 outputs:
   title:
     description: 'The title of the action.'
@@ -37,3 +40,5 @@ runs:
   - ${{ inputs.append-metadata }}
   - '-c'
   - ${{ inputs.commit }}
+  - '-s'
+  - ${{ inputs.script-path }}
