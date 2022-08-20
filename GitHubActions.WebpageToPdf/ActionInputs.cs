@@ -24,6 +24,11 @@ public class ActionInputs
         HelpText = "Append timestamp to file name.")]
     public bool? AppendMetadata { get; init; } = false;
 
+    [Option('c', "commit",
+        Required = false,
+        HelpText = "Commit hash.")]
+    public string? Commit { get; init; } = null;
+
     [Option("media-type-screen",
         Required = false,
         HelpText = "Emulate screen media type.",

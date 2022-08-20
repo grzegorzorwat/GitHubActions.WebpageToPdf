@@ -70,6 +70,11 @@ static string GetFileName(ActionInputs inputs)
     if (inputs.AppendMetadata == true)
     {
         fileName += $"_{DateTime.Now:yyyyMMddHHmmss}";
+
+        if (!string.IsNullOrEmpty(inputs.Commit))
+        {
+            fileName += $"_{inputs.Commit}";
+        }
     }
 
     fileName += PdfExtension;

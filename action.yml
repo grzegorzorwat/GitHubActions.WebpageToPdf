@@ -17,6 +17,9 @@ inputs:
     description: 'Append timestamp to file name.'
     required: false
     default: false
+  commit:
+    description: 'Commit hash.'
+    required: false
 outputs:
   title:
     description: 'The title of the action.'
@@ -32,3 +35,5 @@ runs:
   - ${{ inputs.file-name }}
   - '-m'
   - ${{ inputs.append-metadata }}
+  - '-c'
+  - ${{ inputs.commit }}
