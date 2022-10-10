@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
-using PuppeteerSharp.Media;
 using static CommandLine.Parser;
 
 const string PdfExtension = ".pdf";
@@ -64,6 +63,21 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
 
         string script = File.ReadAllText(inputs.ScriptPath);
         await page.EvaluateExpressionAsync(script);
+    }
+
+    if (!string.IsNullOrEmpty(inputs.CssPath))
+    {
+        if (!File.Exists(inputs.CssPath))
+        {
+            logger.LogError("Css file must exist.");
+            Environment.Exit(2);
+        }
+
+        string css = File.ReadAllText(inputs.CssPath);
+        await page.AddStyleTagAsync(new AddTagOptions
+        {
+            Content = css
+        });
     }
 
     await page.PdfAsync(fullPath);

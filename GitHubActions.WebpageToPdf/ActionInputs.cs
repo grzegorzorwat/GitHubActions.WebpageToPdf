@@ -35,6 +35,11 @@ public class ActionInputs
         HelpText = "Path to javascript script to be run on the web page before the pdf is created.")]
     public string? ScriptPath { get; init; } = null;
 
+    [Option( "css",
+        Required = false,
+        HelpText = "Path to css styles file to be run on the web page before the pdf is created.")]
+    public string? CssPath { get; init; } = null;
+
     [Option('t', "media-type",
         Required = false,
         HelpText = "Emulate media type. Possible types: None/Screen/Print.",
