@@ -80,7 +80,10 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
         });
     }
 
-    await page.PdfAsync(fullPath);
+    await page.PdfAsync(fullPath, new PdfOptions
+    {
+        Format = PuppeteerSharp.Media.PaperFormat.A4
+    });
     string title = $"Created pdf for webpage {inputs.WebpageAddress}.";
     Console.WriteLine($"::set-output name=title::{title}");
 
