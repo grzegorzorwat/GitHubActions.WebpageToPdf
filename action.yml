@@ -57,4 +57,4 @@ runs:
   - '-t'
   - ${{ inputs.media-type }}
   - '--format'
-  - ${{ inputs.paper-forma }}
+  - ${{ inputs.paper-format }}
