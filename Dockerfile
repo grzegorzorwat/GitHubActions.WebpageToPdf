@@ -20,6 +20,7 @@ LABEL com.github.actions.color="red"
 FROM mcr.microsoft.com/dotnet/sdk:6.0
 
 RUN apt-get update
+RUN apt-get install fonts-noto-color-emoji
 RUN apt-get -y install gnupg
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' && \
@@ -31,7 +32,6 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     libxtst6 ca-certificates fonts-liberation libnss3 lsb-release xdg-utils wget curl google-chrome-stable \
     fonts-ipafont-gothic fonts-wqy-zenhei fonts-thai-tlwg fonts-kacst fonts-freefont-ttf && \
     rm -rf /var/lib/apt/lists/*
-RUN apt-get -y install fonts-noto-color-emoji
 
 COPY --from=build-env /out .
 ENTRYPOINT [ "dotnet", "/GitHubActions.WebpageToPdf.dll" ]
