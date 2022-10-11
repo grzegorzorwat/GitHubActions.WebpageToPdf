@@ -37,10 +37,9 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
     var logger = Get<ILoggerFactory>(host).CreateLogger(nameof(StartPdfGenerationAsync));
     var options = new PdfOptions();
 
-    if (!string.IsNullOrEmpty(inputs.PaperFormat)
-        && Enum.TryParse(typeof(PaperFormat), inputs.PaperFormat, out var paperFormat))
+    if (!string.IsNullOrEmpty(inputs.PaperFormat))
     {
-        options.Format = (PaperFormat)paperFormat!;
+        options.Format = GetPaperFormat(inputs.PaperFormat);
     }
 
     using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
@@ -116,3 +115,19 @@ static string GetFileName(ActionInputs inputs)
     fileName += PdfExtension;
     return fileName;
 }
+
+static PaperFormat? GetPaperFormat(string paperFormat) => paperFormat switch
+{
+    "A0" => PaperFormat.A0,
+    "A1" => PaperFormat.A1,
+    "A2" => PaperFormat.A2,
+    "A3" => PaperFormat.A3,
+    "A4" => PaperFormat.A4,
+    "A5" => PaperFormat.A5,
+    "A6" => PaperFormat.A6,
+    "Ledger" => PaperFormat.Ledger,
+    "Legal" => PaperFormat.Legal,
+    "Letter" => PaperFormat.Letter,
+    "Tabloid" => PaperFormat.Tabloid,
+    _ => null
+};
