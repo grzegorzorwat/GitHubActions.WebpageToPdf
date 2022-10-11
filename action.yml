@@ -30,6 +30,9 @@ inputs:
     description: 'Emulate media type. Possible types: None/Screen/Print.'
     required: false
     default: 'None'
+  paper-format:
+    description: 'Paper format.'
+    required: false
 outputs:
   title:
     description: 'The title of the action.'
@@ -53,3 +56,5 @@ runs:
   - ${{ inputs.css-path }}
   - '-t'
   - ${{ inputs.media-type }}
+  - '--format'
+  - ${{ inputs.paper-forma }}

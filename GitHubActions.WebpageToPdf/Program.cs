@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using PuppeteerSharp;
+using PuppeteerSharp.Media;
 using static CommandLine.Parser;
 
 const string PdfExtension = ".pdf";
@@ -34,6 +35,14 @@ await host.RunAsync();
 static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
 {
     var logger = Get<ILoggerFactory>(host).CreateLogger(nameof(StartPdfGenerationAsync));
+    var options = new PdfOptions();
+
+    if (!string.IsNullOrEmpty(inputs.PaperFormat)
+        && Enum.TryParse(typeof(PaperFormat), inputs.PaperFormat, out var paperFormat))
+    {
+        options.Format = (PaperFormat)paperFormat!;
+    }
+
     using var browser = await Puppeteer.LaunchAsync(new LaunchOptions
     {
         Headless = true,
@@ -78,12 +87,10 @@ static async Task StartPdfGenerationAsync(ActionInputs inputs, IHost host)
         {
             Content = css
         });
+        options.PreferCSSPageSize = true;
     }
 
-    await page.PdfAsync(fullPath, new PdfOptions
-    {
-        Format = PuppeteerSharp.Media.PaperFormat.A4
-    });
+    await page.PdfAsync(fullPath, options);
     string title = $"Created pdf for webpage {inputs.WebpageAddress}.";
     Console.WriteLine($"::set-output name=title::{title}");
 

@@ -45,4 +45,9 @@ public class ActionInputs
         HelpText = "Emulate media type. Possible types: None/Screen/Print.",
         Default = MediaType.None)]
     public MediaType EmulateMediaType { get; init; }
+
+    [Option("format",
+        Required = false,
+        HelpText = "Paper format.")]
+    public string? PaperFormat { get; init; }
 }
